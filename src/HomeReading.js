@@ -8,6 +8,9 @@ export const HomeReading = () => `
 `;
 
 export function actions() {
+
+  const tasksArray = [];
+
   const input = document.getElementById('input-add');
   const button = document.getElementById('add-button');
 
@@ -17,33 +20,47 @@ export function actions() {
 
 
   button.addEventListener('click', () => {
-    const value = input.value;
+    const value = input.value.trim();
     if (value) {
+
+      const newTask = {
+        id: tasksArray.length > 0 ? tasksArray[tasksArray.length - 1].id + 1 : 1,
+        text: value
+      }; 
+
+      tasksArray.push(newTask);
+    
+
       const list = document.createElement('div');
       list.classList.add('flex', 'justify-between', 'items-center', 'gap-2', 'w-full');
       list.innerHTML = `
     <div class=" rounded-lg p-2 flex justify-between w-full hover:bg-amber-100">
     <div>
-      <p class="font-mono">${value}</p>
+      <p class="font-mono">${newTask.text}</p>
     </div>
     <div class="flex gap-4">
       <img class="cursor-pointer" src="/src/assets/icons/check.svg" alt="">
       <img class="delete-element cursor-pointer" src="/src/assets/icons/trash.svg" alt="">
     </div>
-    </di>
-      `;
-      document.getElementById('second-container').appendChild(list);
+    </di>`;
+
+      const secondContainer = document.getElementById('second-container');
+      secondContainer.appendChild(list);
+
       input.value = '';
 
-      const elementItem = document.querySelector(".delete-element");
-      elementItem.addEventListener('click', () =>{
+  
+      const deleteBtn = list.querySelector(".delete-element");
+      deleteBtn.addEventListener('click', () => {
         list.remove();
-      })
+
+        const index = tasksArray.findIndex(t => t.id === newTask.id);
+        if (index !== -1) tasksArray.splice(index, 1);
+        console.log("Array actualizado:", tasksArray);
+      });
+
+      console.log("Array actualizado", tasksArray);
     }
-
-
-
-  });
+});
 }
 
-// 'rounded-lg', 'border-2',)
