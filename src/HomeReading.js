@@ -14,42 +14,35 @@ export function actions() {
   const input = document.getElementById('input-add');
   const button = document.getElementById('add-button');
 
-  input.addEventListener('input', (e)=>{
-    console.log(e.target.value)
-  })
+  const addTask = () => {
 
-
-  button.addEventListener('click', () => {
     const value = input.value.trim();
     if (value) {
-
       const newTask = {
         id: tasksArray.length > 0 ? tasksArray[tasksArray.length - 1].id + 1 : 1,
         text: value
-      }; 
+      };
 
       tasksArray.push(newTask);
-    
 
       const list = document.createElement('div');
       list.classList.add('flex', 'justify-between', 'items-center', 'gap-2', 'w-full');
       list.innerHTML = `
-    <div class=" rounded-lg p-2 flex justify-between w-full hover:bg-amber-100">
-    <div>
-      <p class="font-mono">${newTask.text}</p>
-    </div>
-    <div class="flex gap-4">
-      <img class="cursor-pointer" src="/src/assets/icons/check.svg" alt="">
-      <img class="delete-element cursor-pointer" src="/src/assets/icons/trash.svg" alt="">
-    </div>
-    </di>`;
+        <div class="rounded-lg p-2 flex justify-between w-full hover:bg-amber-100">
+          <div>
+            <p class="font-mono">${newTask.text}</p>
+          </div>
+          <div class="flex gap-4">
+            <img class="cursor-pointer" src="/src/assets/icons/check.svg" alt="">
+            <img class="delete-element cursor-pointer" src="/src/assets/icons/trash.svg" alt="">
+          </div>
+        </div>`;
 
       const secondContainer = document.getElementById('second-container');
       secondContainer.appendChild(list);
 
       input.value = '';
 
-  
       const deleteBtn = list.querySelector(".delete-element");
       deleteBtn.addEventListener('click', () => {
         list.remove();
@@ -61,6 +54,18 @@ export function actions() {
 
       console.log("Array actualizado", tasksArray);
     }
-});
-}
+  };
 
+  input.addEventListener('input', (e) => {
+    console.log(e.target.value);
+  });
+
+  button.addEventListener('click', addTask);
+
+  input.addEventListener('keypress', (e) => {
+    if (e.key === "Enter"){
+      addTask();
+    }
+  }
+  );
+}
