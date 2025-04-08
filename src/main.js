@@ -18,7 +18,7 @@ window.addEventListener('DOMContentLoaded', () =>{
 
 // improvised router 
 
-const History = () => `<p>Bitches</p>`;
+const History = () => `<p>Working on it...</p>`;
 // const Recommendations = () => ``;
 
 

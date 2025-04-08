@@ -1,20 +1,46 @@
 // HomeReading.js
 export const HomeReading = () => `
-
-  <div class="flex flex-row gap-2 w-full">
+  <div class="flex flex-row gap-2 w-full pb-2">
     <input id="input-add" type="text" class="w-full h-10 border-2 border-primary rounded-lg p-2" placeholder="Add a new book">
-    <button id="add-button" type="submit" class="bg-primary p-2 px-8 h-fit w-fit text-white rounded-lg cursor-pointer hover:bg-amber-950">Add</button>
+    <button id="add-button" type="submit" class="bg-primary p-2 px-8 w-fit text-white rounded-lg cursor-pointer hover:bg-amber-950">Add</button>
   </div>
   </div>
-
 `;
 
 export function actions() {
 
-  const tasksArray = [];
+  let tasksArray = JSON.parse(localStorage.getItem("data")) || [];
 
   const input = document.getElementById('input-add');
   const button = document.getElementById('add-button');
+  const secondContainer = document.getElementById('second-container');
+
+  
+  const renderTasks = (task) =>{
+    const list = document.createElement('div');
+    list.classList.add('flex', 'justify-between', 'items-center', 'gap-2', 'w-full');
+    list.innerHTML = `
+      <div class="rounded-lg p-2 flex justify-between w-full hover:bg-amber-100">
+        <div>
+          <p class="font-mono">${task.text}</p>
+        </div>
+        <div class="flex gap-4">
+          <img class="cursor-pointer" src="/src/assets/icons/check.svg" alt="">
+          <img class="delete-element cursor-pointer" src="/src/assets/icons/trash.svg" alt="">
+        </div>
+      </div>`;
+
+    secondContainer.appendChild(list);
+
+    const deleteBtn = list.querySelector(".delete-element");
+      deleteBtn.addEventListener('click', () => {
+      list.remove();
+
+      tasksArray = tasksArray.filter(t => t.id !== task.id);
+      localStorage.setItem("data", JSON.stringify(tasksArray));    
+    });
+
+  }
 
   const addTask = () => {
 
@@ -26,42 +52,15 @@ export function actions() {
       };
 
       tasksArray.push(newTask);
-
-      const list = document.createElement('div');
-      list.classList.add('flex', 'justify-between', 'items-center', 'gap-2', 'w-full');
-      list.innerHTML = `
-      
-        <div class="rounded-lg p-2 flex justify-between w-full hover:bg-amber-100">
-          <div>
-            <p class="font-mono">${newTask.text}</p>
-          </div>
-          <div class="flex gap-4">
-            <img class="cursor-pointer" src="/src/assets/icons/check.svg" alt="">
-            <img class="delete-element cursor-pointer" src="/src/assets/icons/trash.svg" alt="">
-          
-        </div>`;
-
-      const secondContainer = document.getElementById('second-container');
-      secondContainer.appendChild(list);
+      localStorage.setItem("data", JSON.stringify(tasksArray));
+      renderTasks(newTask);
 
       input.value = '';
-
-      const deleteBtn = list.querySelector(".delete-element");
-      deleteBtn.addEventListener('click', () => {
-        list.remove();
-
-        const index = tasksArray.findIndex(t => t.id === newTask.id);
-        if (index !== -1) tasksArray.splice(index, 1);
-        console.log("Array actualizado:", tasksArray);
-      });
-
-      console.log("Array actualizado", tasksArray);
     }
   };
 
-  input.addEventListener('input', (e) => {
-    console.log(e.target.value);
-  });
+
+  tasksArray.forEach(renderTasks);
 
   button.addEventListener('click', addTask);
 
