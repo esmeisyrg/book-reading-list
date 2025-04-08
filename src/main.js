@@ -1,5 +1,6 @@
-import { actions, HomeReading } from './HomeReading';
+import { actions, HomeReading } from './views/HomeReading';
 import './style.css'
+import { RecommendationsPage } from './views/Recommendations';
 
 const loading = document.getElementById('loading');
 
@@ -18,13 +19,13 @@ window.addEventListener('DOMContentLoaded', () =>{
 // improvised router 
 
 const History = () => `<p>Bitches</p>`;
-const Recommendations = () => ``;
+// const Recommendations = () => ``;
 
 
 const routes ={
   '/': HomeReading,
   '/history': History,
-  '/recommendations': Recommendations,
+  '/recommendations':RecommendationsPage,
   '*': HomeReading,
 
 }
