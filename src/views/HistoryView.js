@@ -1,6 +1,5 @@
 import { createBookCard } from "./BookCard";
 import image from "../assets/icons/reading-side.svg";
-import { navigate } from "../main";
 
 export let readBooksArr = JSON.parse(localStorage.getItem("readBooks")) || [];
 
