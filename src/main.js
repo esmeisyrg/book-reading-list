@@ -12,7 +12,7 @@ const routes ={
 
 }
 
-function navigate(path){
+export function navigate(path){
   history.pushState({}, "", path);
   router();
 }
@@ -48,7 +48,6 @@ function router (){
 
 
 }
-
 
 document.addEventListener("DOMContentLoaded", () =>{
   document.body.addEventListener("click", (e) => {

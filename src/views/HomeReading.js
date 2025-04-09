@@ -15,7 +15,7 @@ export const HomeReading = () => {
   ${tasksArray.length <= 0 ? `
     <div class="flex h-fit justify-self-center pt-10 align-middle">
     
-    <p class="text-3xl font-semibold pb-10 text-[#8f8a86]">Ooops! No books found. Add a new one pressing the "Add button".</p>
+    <p class="text-3xl font-semibold pb-10 text-[#8f8a86]">Ooops! No books found. Add a new one pressing the "Add book" button.</p>
     
     <img class="w-60 h-fit absolute bottom-1 left-0" src="${image}">
     
