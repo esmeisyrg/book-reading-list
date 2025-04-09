@@ -5,7 +5,6 @@ import image from "../assets/icons/book.png";
 // ------------------ Componente principal ------------------
 
 export const HomeReading = () => {
-  // Retrieve tasksArray from local storage
   const tasksArray = JSON.parse(localStorage.getItem("data")) || [];
 
   return `
@@ -22,7 +21,7 @@ export const HomeReading = () => {
     </div>
     ` : ''}
     <div class="flex justify-center w-full pb-2">
-      <button id="open-modal" class="bg-primary px-6 py-2 text-white rounded-lg hover:bg-amber-950 absolute right-10 bottom-6">
+      <button id="open-modal" class="bg-primary px-6 py-2 text-white rounded-lg hover:bg-amber-950 absolute right-10 bottom-6 cursor-pointer">
         Add book
       </button>
     </div>
@@ -107,11 +106,11 @@ const updateFormValidity = () => {
   
   if (isValid) {
     addButton.removeAttribute("disabled");
-    addButton.classList.remove("bg-gray-400");
-    addButton.classList.add("bg-primary", "hover:bg-amber-900");
+    addButton.classList.remove("bg-gray-400", "cursor-pointer");
+    addButton.classList.add("bg-primary", "hover:bg-amber-900", "cursor-pointer");
   } else {
     addButton.setAttribute("disabled", "");
-    addButton.classList.remove("bg-primary", "hover:bg-amber-900");
+    addButton.classList.remove("bg-primary", "hover:bg-amber-900", "cursor-pointer");
     addButton.classList.add("bg-gray-400");
   }
 
