@@ -1,23 +1,30 @@
-import { recommendations } from "../favorites"
+import { createBookCard } from "./BookCard";
+import { recommendations } from "../favorites";
 
-export const RecommendationsPage = () => 
-    recommendations.map((r =>
-        
-        `
-          <div class="flex gap-2 w-full pt-4">
-          <div>
-            <img class="w-20 h-fit" src="${r.image}"></img>
-          </div>
+export const RecommendationsPage = () => {
+  return `       
+    <h3 class="text-xl font-semibold pb-3 text-primary">People's favorites 🌟</h3>
+    
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 w-full">
+      ${renderList()}
+    </div>
+  `;
+};
 
-            <div>              
-                <h2 class="font-bold text-primary">${r.book}</h2>
-                <p class="font-normal">${r.author}</p>
-            <p>${r.pages}</p>
+const renderList = () => {
+  const container = document.createElement("div");
 
-          
-          </div>
+  recommendations.forEach((r) => {
+    const card = createBookCard({
+      image: r.image,
+      text: r.book,
+      author: r.author,
+      pages: r.pages
+    }, {
+      showActions: false
+    });
+    container.appendChild(card);
+  });
 
-        </div>`
-
-
-    )).join("");
+  return container.innerHTML;
+};

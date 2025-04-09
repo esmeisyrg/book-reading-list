@@ -1,73 +1,186 @@
-// HomeReading.js
+import { readBooksArr } from "./HistoryView";
+import { createBookCard } from "./BookCard";
+
+// ------------------ Componente principal ------------------
+
 export const HomeReading = () => `
-  <div class="flex flex-row gap-2 w-full pb-2">
-    <input id="input-add" type="text" class="w-full h-10 border-2 border-primary rounded-lg p-2" placeholder="Add a new book">
-    <button id="add-button" type="submit" class="bg-primary p-2 px-8 w-fit text-white rounded-lg cursor-pointer hover:bg-amber-950">Add</button>
+    <h3 class="text-xl font-semibold pb-1 text-primary">Your reading list 📚</h3>
+    <p class="text-sm font-medium pb-2 text-primary">Add, delete and mark books as read whenever you want.</p>
+
+  <div class="flex justify-center w-full pb-2">
+
+    <button id="open-modal" class="bg-primary px-6 py-2 text-white rounded-lg hover:bg-amber-950 absolute right-10 bottom-6">
+      Add book
+    </button>
   </div>
-  </div>
+  <div id="books-grid" class="grid grid-cols-1 md:grid-cols-2 gap-4 w-full"></div>
 `;
 
-export function actions() {
+// ------------------ Helpers ------------------
 
-  let tasksArray = JSON.parse(localStorage.getItem("data")) || [];
+const getEl = (id) => document.getElementById(id);
 
-  const input = document.getElementById('input-add');
-  const button = document.getElementById('add-button');
-  const secondContainer = document.getElementById('second-container');
-
-  
-  const renderTasks = (task) =>{
-    const list = document.createElement('div');
-    list.classList.add('flex', 'justify-between', 'items-center', 'gap-2', 'w-full');
-    list.innerHTML = `
-      <div class="rounded-lg p-2 flex justify-between w-full hover:bg-amber-100">
-        <div>
-          <p class="font-mono">${task.text}</p>
-        </div>
-        <div class="flex gap-4">
-          <img class="cursor-pointer" src="/src/assets/icons/check.svg" alt="">
-          <img class="delete-element cursor-pointer" src="/src/assets/icons/trash.svg" alt="">
-        </div>
-      </div>`;
-
-    secondContainer.appendChild(list);
-
-    const deleteBtn = list.querySelector(".delete-element");
-      deleteBtn.addEventListener('click', () => {
-      list.remove();
-
-      tasksArray = tasksArray.filter(t => t.id !== task.id);
-      localStorage.setItem("data", JSON.stringify(tasksArray));    
-    });
-
+const isValidUrl = (url) => {
+  try {
+    new URL(url);
+    return true;
+  } catch {
+    return false;
   }
+};
 
-  const addTask = () => {
+const localAdd = (data) => {
+  localStorage.setItem("data", JSON.stringify(data));
+};
 
-    const value = input.value.trim();
-    if (value) {
-      const newTask = {
-        id: tasksArray.length > 0 ? tasksArray[tasksArray.length - 1].id + 1 : 1,
-        text: value
-      };
+// ------------------ Render ------------------
 
-      tasksArray.push(newTask);
-      localStorage.setItem("data", JSON.stringify(tasksArray));
-      renderTasks(newTask);
+const renderAllBooks = (tasksArray, container, onDelete, onCheck) => {
+  container.innerHTML = "";
+  tasksArray.forEach(task => {
+    container.appendChild(
+      createBookCard(task, {
+        showActions: true,
+        onDelete: () => onDelete(task),
+        onCheck: () => onCheck(task),
+      })
+    );
+  });
+};
 
-      input.value = '';
-    }
+// ------------------ Validación ------------------
+
+const validateInputs = (title, author, imageUrl) => {
+  const errors = {
+    name: getEl("error-name"),
+    author: getEl("error-author"),
+    url: getEl("error-url"),
   };
 
+  let isValid = true;
 
-  tasksArray.forEach(renderTasks);
-
-  button.addEventListener('click', addTask);
-
-  input.addEventListener('keypress', (e) => {
-    if (e.key === "Enter"){
-      addTask();
-    }
+  if (!title) {
+    errors.name.classList.remove("hidden");
+    isValid = false;
+  } else {
+    errors.name.classList.add("hidden");
   }
-  );
+
+  if (!author) {
+    errors.author.classList.remove("hidden");
+    isValid = false;
+  } else {
+    errors.author.classList.add("hidden");
+  }
+
+  if (imageUrl && !isValidUrl(imageUrl)) {
+    errors.url.classList.remove("hidden");
+    isValid = false;
+  } else {
+    errors.url.classList.add("hidden");
+  }
+
+  return isValid;
+};
+
+const updateFormValidity = () => {
+  const title = getEl("modal-input").value.trim();
+  const author = getEl("modal-input-author").value.trim();
+  const imageUrl = getEl("image-url").value.trim();
+  
+  const isValid = title && author && (!imageUrl || isValidUrl(imageUrl));
+  const addButton = getEl("modal-add");
+  
+  if (isValid) {
+    addButton.removeAttribute("disabled");
+    addButton.classList.remove("bg-gray-400");
+    addButton.classList.add("bg-primary", "hover:bg-amber-900");
+  } else {
+    addButton.setAttribute("disabled", "");
+    addButton.classList.remove("bg-primary", "hover:bg-amber-900");
+    addButton.classList.add("bg-gray-400");
+  }
+
+  validateInputs(title, author, imageUrl);
+};
+
+// ------------------ Acciones ------------------
+
+export function actions() {
+  let tasksArray = JSON.parse(localStorage.getItem("data")) || [];
+
+  const booksGrid = getEl("books-grid");
+  const modal = getEl("modal");
+  const openModalBtn = getEl("open-modal");
+  const closeModalBtn = getEl("close-modal");
+  const modalAddBtn = getEl("modal-add");
+
+  const inputTitle = getEl("modal-input");
+  const inputAuthor = getEl("modal-input-author");
+  const inputImage = getEl("image-url");
+
+  modalAddBtn.setAttribute("disabled", "");
+  modalAddBtn.classList.add("bg-gray-400");
+  modalAddBtn.classList.remove("bg-primary", "hover:bg-amber-900");
+
+  const resetInputs = () => {
+    inputTitle.value = "";
+    inputAuthor.value = "";
+    inputImage.value = "";
+    modalAddBtn.setAttribute("disabled", "");
+    modalAddBtn.classList.add("bg-gray-400");
+    modalAddBtn.classList.remove("bg-primary", "hover:bg-amber-900");
+  };
+
+  const handleDelete = (task) => {
+    tasksArray = tasksArray.filter(t => t.id !== task.id);
+    localAdd(tasksArray);
+    renderAllBooks(tasksArray, booksGrid, handleDelete, handleCheck);
+  };
+
+  const handleCheck = (task) => {
+    readBooksArr.unshift(task);
+    localStorage.setItem("readBooks", JSON.stringify(readBooksArr));
+    handleDelete(task);
+  };
+
+  const handleAddBook = () => {
+    const title = inputTitle.value.trim();
+    const author = inputAuthor.value.trim();
+    const imageUrl = inputImage.value.trim();
+
+    if (!validateInputs(title, author, imageUrl)) return;
+
+    const newBook = {
+      id: tasksArray.length ? tasksArray[0].id + 1 : 1,
+      text: title,
+      author,
+      image: imageUrl || "https://developers.elementor.com/docs/assets/img/elementor-placeholder-image.png"
+    };
+
+    tasksArray.unshift(newBook);
+    localAdd(tasksArray);
+    renderAllBooks(tasksArray, booksGrid, handleDelete, handleCheck);
+    resetInputs();
+    modal.close();
+  };
+
+  renderAllBooks(tasksArray, booksGrid, handleDelete, handleCheck);
+
+  openModalBtn.addEventListener("click", () => {
+    modal.showModal();
+    resetInputs();
+    inputTitle.focus();
+  });
+
+  closeModalBtn.addEventListener("click", () => modal.close());
+  modalAddBtn.addEventListener("click", handleAddBook);
+
+  inputTitle.addEventListener("input", updateFormValidity);
+  inputAuthor.addEventListener("input", updateFormValidity);
+  inputImage.addEventListener("input", updateFormValidity);
+
+  inputTitle.addEventListener("keypress", (e) => {
+    if (e.key === "Enter" && !modalAddBtn.hasAttribute("disabled")) handleAddBook();
+  });
 }

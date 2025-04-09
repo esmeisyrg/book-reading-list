@@ -6,7 +6,7 @@
   <link rel="icon" type="image/svg+xml" href="/vite.svg" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="stylesheet" href="/src/style.css">
-  <link href="https://fonts.googleapis.com/css2?family=Arvo:ital,wght@0,400;0,700;1,400;1,700&display=swap"
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap"
     rel="stylesheet">
 
   <title>Vite App</title>
@@ -14,42 +14,66 @@
 
 <body>
 
-  <!-- <article id="loading" class="flex w-full h-screen justify-center items-center p-4 flex-col fixed z-50">
+  <body>
+
+    <!-- <article id="loading" class="flex w-full h-screen justify-center items-center p-4 flex-col fixed z-50">
     <p class="text-3xl text-primary font-bold pb-4">Welcome! </p>
     <img class="max-w-3/6 h-3/6" src="./src/assets/icons/library_.svg" alt="Vite Logo">
-
   </article> -->
 
-  <article class="flex w-full h-screen justify-center items-center p-4 flex-col">
-
-
-
-    <div id="main-container" class="w-4xl min-h-3/4 bg-[#fff8ea] flex shadow-2xl rounded-lg p-8 px-20 flex-col">
-
-      <div class="flex justify-center w-full h-fit pb-4">
-        <p class="text-primary text-2xl font-bold">YR Book</p>
-      </div>
-
-      <nav class="flex w-full justify-center pb-6">
+    <article class="flex w-full h-screen justify-center items-center p-4 flex-col">
+      <nav class="flex w-full justify-center pt-1 pb-6">
         <ul class="flex gap-4">
-          <li><a class="navigation text-primary font-semibold " href="/">Reading</a></li>
-          <li><a class="navigation text-primary font-semibold" href="/history">History</a></li>
-          <li><a class="navigation text-primary font-semibold" href="/recommendations">Favorites</a></li>
+          <li><a id="home-book" class="navigation active text-primary font-semibold " data-link href="/">Reading</a>
+          </li>
+          <li><a id="history-book" class="navigation text-primary font-semibold" data-link href="/history">History</a>
+          </li>
+          <li><a id="favorites-book" class="navigation text-primary font-semibold" data-link
+              href="/recommendations">Favorites</a>
+          </li>
         </ul>
       </nav>
 
-      <div id="second-container" class="gap-2 overflow-y-auto h-[60vh]">
+      <div id="main-container"
+        class="w-4xl min-h-3/4 bg-[#fff8ea] flex shadow-2xl rounded-lg p-8 px-14 flex-col relative">
+
+        <div id="second-container" class="gap-2 overflow-y-auto h-[60vh]">
 
 
+        </div>
+
+        <dialog id="modal"
+          class="z-40 rounded-xl p-6 bg-white shadow-xl w-full max-w-md backdrop:bg-black/40 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
+          <div class="flex flex-col gap-4">
+            <div class="flex justify-between">
+              <p>Agrega un nuevo libro</p>
+
+              <button id="close-modal" class="text-primary font-bold text-xl hover:text-red-600">X</button>
+            </div>
+            <div id="modal-content" class="flex flex-col gap-4">
+              <input required id="modal-input" type="text" class="w-full h-10 border-2 border-primary rounded-lg p-2"
+                placeholder="Nombre *">
+              <span id="error-name" class="text-red-600 text-sm hidden">El nombre es obligatorio</span>
+
+              <input required id="modal-input-author" type="text"
+                class="w-full h-10 border-2 border-primary rounded-lg p-2" placeholder="Autor *">
+              <span id="error-author" class="text-red-600 text-sm hidden">El autor es obligatorio</span>
+
+              <input id="image-url" type="text" class="w-full h-10 border-2 border-primary rounded-lg p-2"
+                placeholder="URL de la imagen (opcional)" />
+              <span id="error-url" class="text-red-600 text-sm hidden">Debe ser una URL válida (https://...)</span>
+
+              <button id="modal-add" class="p-2 text-white rounded-lg cursor-pointer transition-colors">Agregar</button>
+            </div>
+          </div>
+        </dialog>
 
       </div>
 
-    </div>
 
 
-
-  </article>
-  <script type="module" src="/src/main.js"></script>
-</body>
+    </article>
+    <script type="module" src="/src/main.js"></script>
+  </body>
 
 </html>
