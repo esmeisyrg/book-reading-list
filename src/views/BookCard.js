@@ -1,7 +1,8 @@
 // BookCard.js
 export const createBookCard = ({ image, text, author, pages }, options = {}) => {
     const card = document.createElement("div");
-    card.className = "book-card border border-gray-200 rounded-lg shadow-sm overflow-hidden";
+    card.className =
+    "book-card border border-gray-200 rounded-lg shadow-sm overflow-hidden transition-all transition-discrete";
   
     card.innerHTML = `
       <div class="flex flex-col w-full p-2">
@@ -15,11 +16,11 @@ export const createBookCard = ({ image, text, author, pages }, options = {}) => 
           </div>
           ${options.showActions ? `
             <div class="flex gap-2">
-            <div class="p-1 bg-amber-100 rounded-4xl">
+            <div class="p-1 bg-amber-100 rounded-4xl hover:bg-[#d4ff95]">
               <img class="check-element cursor-pointer w-6" src="/src/assets/icons/check.svg" alt="Mark as read">
             </div>
 
-            <div class="p-1 bg-amber-100 rounded-4xl">
+            <div class="p-1 bg-amber-100 rounded-4xl hover:bg-red-300 ">
                 <img class="delete-element cursor-pointer w-6" src="/src/assets/icons/trash.svg" alt="Delete">
             </div>
             </div>
@@ -30,11 +31,23 @@ export const createBookCard = ({ image, text, author, pages }, options = {}) => 
   
     if (options.showActions) {
       card.querySelector(".delete-element")?.addEventListener("click", () => {
-        options.onDelete?.();
+
+        card.classList.add("opacity-0", "scale-95");
+
+        setTimeout(() => {
+          options.onDelete?.();
+
+        }, 500);
       });
   
       card.querySelector(".check-element")?.addEventListener("click", () => {
-        options.onCheck?.();
+
+        card.classList.add("opacity-0", "scale-95");
+
+        setTimeout(() => {
+          options.onCheck?.();
+        }, 500);
+
       });
     }
   

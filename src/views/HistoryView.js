@@ -11,13 +11,13 @@ export const historyView = () => `
       ${readBooksArr.length <= 0 ? `
     <div class="flex h-fit justify-self-center pt-10 align-middle">
     
-<p class="text-3xl font-semibold pb-10 text-[#8f8a86]">
+<p class="text-xl md:text-3xl font-semibold pb-10 text-[#8f8a86]">
   Ooops! No history found. Add books by marking them as read in the 
 <a href="/" data-link class="text-blue-600 cursor-pointer underline">"reading"</a>
   section.
 </p>
     
-    <img class="w-65 h-fit absolute bottom-1 left-0" src="${image}">
+    <img class="w-40 md:w-60 h-fit absolute bottom-1 left-0" src="${image}">
     
     </div>
     ` : ''} 

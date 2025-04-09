@@ -14,14 +14,14 @@ export const HomeReading = () => {
   ${tasksArray.length <= 0 ? `
     <div class="flex h-fit justify-self-center pt-10 align-middle">
     
-    <p class="text-3xl font-semibold pb-10 text-[#8f8a86]">Ooops! No books found. Add a new one pressing the "Add book" button.</p>
+    <p class="text-xl md:text-3xl font-semibold pb-10 text-[#8f8a86]">Ooops! No books found. Add a new one pressing the "Add book" button.</p>
     
-    <img class="w-60 h-fit absolute bottom-1 left-0" src="${image}">
+    <img class="w-40 md:w-60 h-fit absolute bottom-1 left-0" src="${image}">
     
     </div>
     ` : ''}
     <div class="flex justify-center w-full pb-2">
-      <button id="open-modal" class="bg-primary px-6 py-2 text-white rounded-lg hover:bg-amber-950 absolute right-10 bottom-6 cursor-pointer">
+      <button id="open-modal" class="transform transition hover:-translate-y-1 motion-reduce:transition-none motion-reduce:hover:transform-none  bg-primary px-6 py-2 text-white rounded-lg hover:bg-amber-950 absolute right-10 bottom-6 cursor-pointer">
         Add book
       </button>
     </div>
