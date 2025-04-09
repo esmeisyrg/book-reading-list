@@ -25,7 +25,11 @@ export const HomeReading = () => {
         Add book
       </button>
     </div>
-    <div id="books-grid" class="grid grid-cols-1 md:grid-cols-2 gap-4 w-full"></div>
+
+    <div class="gap-2 overflow-y-auto h-[60vh]">
+    
+    <div id="books-grid" class="grid grid-cols-1 md:grid-cols-2 gap-4 w-full "></div>
+    </div>
   `;
 };
 
