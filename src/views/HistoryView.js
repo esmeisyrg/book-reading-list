@@ -21,7 +21,7 @@ export const historyView = () => `
     </div>
     ` : ''} 
 
-    <div class="gap-2 overflow-y-auto h-[60vh]">
+    <div class="gap-2 overflow-y-auto min-h-3/4">
     <div class="grid grid-cols-1 md:grid-cols-2 gap-4 w-full">
       ${renderHistoryBooks()}
     </div>
