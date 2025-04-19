@@ -1,4 +1,5 @@
 // BookCard.js
+
 export const createBookCard = ({ image, text, author, pages }, options = {}) => {
     const card = document.createElement("div");
     card.className =
@@ -17,11 +18,11 @@ export const createBookCard = ({ image, text, author, pages }, options = {}) => 
           ${options.showActions ? `
             <div class="flex gap-2">
             <div class="p-1 bg-amber-100 rounded-4xl hover:bg-[#d4ff95]">
-              <img class="check-element cursor-pointer w-6" src="/src/assets/icons/check.svg" alt="Mark as read">
+              <img class="check-element cursor-pointer w-6" src="check.svg" alt="Mark as read">
             </div>
 
             <div class="p-1 bg-amber-100 rounded-4xl hover:bg-red-300 ">
-                <img class="delete-element cursor-pointer w-6" src="/src/assets/icons/trash.svg" alt="Delete">
+                <img class="delete-element cursor-pointer w-6" src="trash.svg" alt="Delete">
             </div>
             </div>
           ` : ""}
